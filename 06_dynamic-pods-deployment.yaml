@@ -1,0 +1,17 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: dynamic-pods
+spec:
+  replicas: 3  # Adjust the number of pods as needed
+  selector:
+    matchLabels:
+      app: dynamic-pods
+  template:
+    metadata:
+      labels:
+        app: dynamic-pods
+    spec:
+      containers:
+      - name: dynamic-pod
+        image: nginx:latest

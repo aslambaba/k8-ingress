@@ -1,0 +1,39 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: auth-ingress
+  annotations:
+    nginx.ingress.kubernetes.io/configuration-snippet: |
+      location / {
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # Custom Lua script for dynamic routing
+        access_by_lua_block {
+          local key = ngx.req.get_headers()['X-Auth-Key']
+          if key then
+            local res = ngx.location.capture('/authenticate', { args = { key = key } })
+            if res and res.status == 200 then
+              ngx.var.upstream = res.body
+            else
+              ngx.exit(404)
+            end
+          else
+            ngx.exit(403)
+          end
+        }
+      }
+spec:
+  rules:
+    - host: exampletest.com  # Your domain or IP
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: auth-service
+                port:
+                  number: 80
