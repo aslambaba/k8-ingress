@@ -1,10 +1,10 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: pod-0
+  name: web-0
 spec:
   selector:
-    app: dynamic-pods
+    app: dynamic-pods-2
   ports:
     - protocol: TCP
       port: 80

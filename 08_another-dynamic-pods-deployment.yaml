@@ -1,19 +1,18 @@
 apiVersion: apps/v1
 kind: StatefulSet
 metadata:
-  name: pod
+  name: web
 spec:
   replicas: 1  # Adjust the number of pods as needed
   selector:
     matchLabels:
-      app: dynamic-pods
-  serviceName: dynamic-pods  # Service name for the StatefulSet
+      app: dynamic-pods-2
+  serviceName: dynamic-pods-2  # Service name for the StatefulSet
   template:
     metadata:
       labels:
-        app: dynamic-pods
+        app: dynamic-pods-2
     spec:
       containers:
-        - name: dynamic-pod
+        - name: dynamic-pod-2
           image: nginxdemos/hello
-

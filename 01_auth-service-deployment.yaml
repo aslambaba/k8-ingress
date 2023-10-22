@@ -14,6 +14,6 @@ spec:
     spec:
       containers:
       - name: auth-service-cont
-        image: aslambaba/auth-service:v1  # Use the local Docker registry image
+        image: aslambaba/auth-service:v7  # Use the local Docker registry image
         ports:
         - containerPort: 80
